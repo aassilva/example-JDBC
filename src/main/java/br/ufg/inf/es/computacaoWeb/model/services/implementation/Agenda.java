@@ -37,7 +37,7 @@ public class Agenda implements AgendaService{
     }
 
     @Override
-    public void remover(String nome, Connection connection) {
+    public void remover(Contato contato, Connection connection) {
 
     }
 }

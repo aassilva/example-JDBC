@@ -19,6 +19,6 @@ public interface AgendaService {
 
     Contato atualizar(Contato contato, Connection connection);
 
-    void remover(String nome, Connection connection);
+    void remover(Contato contato, Connection connection);
 
 }

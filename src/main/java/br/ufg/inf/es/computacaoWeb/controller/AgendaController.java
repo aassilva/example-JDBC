@@ -6,6 +6,10 @@
 
 package br.ufg.inf.es.computacaoWeb.controller;
 
+import br.ufg.inf.es.computacaoWeb.model.Connection;
+import br.ufg.inf.es.computacaoWeb.model.Contato;
+import br.ufg.inf.es.computacaoWeb.model.services.implementation.Agenda;
+
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.List;
@@ -23,24 +27,26 @@ public class AgendaController extends HttpServlet {
         String op = request.getParameter("op");
         op = (op == null ? "" : op);
 
-        AgendaModel agenda = new AgendaModel();
-        agenda.setNome(request.getParameter("nome"));
-        agenda.setTelefone(request.getParameter("telefone"));
+        Contato contato = new Contato();
+        contato.setNome(request.getParameter("nome"));
+        contato.setTelefone(request.getParameter("telefone"));
         String idString = request.getParameter("id");
-        idString = (idString == null ? "0" : idString);
-        agenda.setId(Integer.parseInt(idString));
+//        idString = (idString == null ? "0" : idString);
+//        contato.setId(Integer.parseInt(idString));
 
-        List<AgendaModel> contatos = null;
+        List<Contato> contatos = null;
+        Agenda agenda =new Agenda();
+        Connection connection = new Connection(url, user, password);
         try {
             if (op.equals("incluir")) {
-                agenda.incluir();
+                agenda.cadastrar(contato, connection.getConnection());
             } else if (op.equals("salvar")) {
-                agenda.salvar();
+                agenda.cadastrar(contato, connection.getConnection());
             } else if (op.equals("excluir")) {
-                agenda.excluir();
+                agenda.remover(contato, connection.getConnection());
             }
 
-            agenda = AgendaModel.listar();
+            contatos = agenda.ATodos(connection);
 
         } catch (SQLException e) {
             throw new RuntimeException(e);
